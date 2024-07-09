@@ -29,6 +29,10 @@ export function App() {
         event.currentTarget.reset();
     }
 
+    function removeEmailFromInvite(email: string) {
+        setEmailsToInvite((state) => state.filter((stateEmail) => stateEmail !== email));
+    }
+
     return (
         <div className="flex h-screen items-center justify-center bg-pattern bg-center bg-no-repeat">
             <div className="w-full max-w-3xl space-y-10 px-6 text-center">
@@ -99,7 +103,7 @@ export function App() {
                                 <div className="flex items-center gap-2 rounded-md bg-zinc-800 px-2.5 py-1.5" key={index}>
                                     <span className="text-zinc-300">{email}</span>
                                     <button type="button">
-                                        <X className="size-4 text-zinc-400" />
+                                        <X className="size-4 text-zinc-400" onClick={() => removeEmailFromInvite(email)} />
                                     </button>
                                 </div>
                             ))}
