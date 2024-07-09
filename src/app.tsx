@@ -1,10 +1,12 @@
-import { ArrowRight, AtSign, Calendar, MapPin, Plus, Settings2, UserRoundPlus, X } from 'lucide-react';
+import { ArrowRight, AtSign, Calendar, MapPin, Plus, Settings2, User, UserRoundPlus, X } from 'lucide-react';
 import { Link } from './_components/link';
 import { FormEvent, useState } from 'react';
 
 export function App() {
     const [isGuestsInputOpen, setIsGuestsInputOpen] = useState(false);
     const [isGuestsModalOpen, setIsGuestsModalOpen] = useState(false);
+    const [isConfirmTripModalOpen, setIsConfirmTripModalOpen] = useState(false);
+
     const [emailsToInvite, setEmailsToInvite] = useState<string[]>(['f6Kw6@example.com']);
 
     function handleToggleGuestsInput() {
@@ -13,6 +15,10 @@ export function App() {
 
     function handleToggleGuestsModal() {
         setIsGuestsModalOpen((state) => !state);
+    }
+
+    function handleToggleConfirmTripModal() {
+        setIsConfirmTripModalOpen((state) => !state);
     }
 
     function addNewEmailToInvite(event: FormEvent<HTMLFormElement>) {
@@ -69,10 +75,10 @@ export function App() {
                         <div className="flex h-16 items-center gap-3 rounded-xl bg-zinc-900 px-4 shadow-shape">
                             <button className="flex flex-1 items-center gap-2 text-left" onClick={handleToggleGuestsModal}>
                                 <UserRoundPlus className="size-5 text-zinc-400" />
-                                <span className="flex-1 text-lg text-zinc-400">Quem estará na viagem?</span>
+                                {emailsToInvite.length > 0 ? <span className="flex-1 text-lg text-zinc-100">{emailsToInvite.length} pessoa(s) convidada(s)</span> : <span className="flex-1 text-lg text-zinc-400">Quem estará na viagem?</span>}
                             </button>
                             <div className="h-6 w-px bg-zinc-800"></div>
-                            <button className="flex items-center gap-2 rounded-lg bg-lime-300 px-5 py-2 font-medium text-lime-950 hover:bg-lime-400">
+                            <button className="flex items-center gap-2 rounded-lg bg-lime-300 px-5 py-2 font-medium text-lime-950 hover:bg-lime-400" onClick={handleToggleConfirmTripModal}>
                                 Confirmar viagem
                                 <ArrowRight className="size-5" />
                             </button>
@@ -119,6 +125,38 @@ export function App() {
                             <button className="flex items-center gap-2 rounded-lg bg-lime-300 px-5 py-2 font-medium text-lime-950 hover:bg-lime-400" type="submit">
                                 Convidar
                                 <Plus className="size-5" />
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            )}
+
+            {isConfirmTripModalOpen && (
+                <div className="fixed inset-0 flex items-center justify-center bg-black/60">
+                    <div className="w-[640px] space-y-5 rounded-xl bg-zinc-900 p-6 px-6 py-5 shadow-shape">
+                        <div className="space-y-2">
+                            <div className="flex items-center justify-between">
+                                <h2 className="text-lg font-semibold">Confirmar criação de viagem</h2>
+                                <button onClick={handleToggleConfirmTripModal} type="button">
+                                    <X className="size-5 text-zinc-400" />
+                                </button>
+                            </div>
+                            <p className="text-sm text-zinc-400">
+                                Para concluir a criação da viagem para <span className="font-semibold text-zinc-100">Florianópolis, Brasil</span> nas datas de <span className="font-semibold text-zinc-100">16 a 27 de Agosto de 2024</span> preencha seus dados abaixo:
+                            </p>
+                        </div>
+
+                        <form onSubmit={addNewEmailToInvite} className="space-y-3">
+                            <div className="flex h-14 flex-1 items-center gap-2 rounded-lg border border-zinc-800 bg-zinc-950 px-4">
+                                <User className="size-5 text-zinc-400" />
+                                <input type="name" name="text" placeholder="Seu nome completo" className="flex-1 bg-transparent text-lg outline-none placeholder:text-zinc-400" />
+                            </div>
+                            <div className="flex h-14 flex-1 items-center gap-2 rounded-lg border border-zinc-800 bg-zinc-950 px-4">
+                                <User className="size-5 text-zinc-400" />
+                                <input type="email" name="email" placeholder="Seu email pessoal" className="flex-1 bg-transparent text-lg outline-none placeholder:text-zinc-400" />
+                            </div>
+                            <button className="flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-lime-300 px-5 font-medium text-lime-950 hover:bg-lime-400" type="submit">
+                                Confirmar criação da viagem
                             </button>
                         </form>
                     </div>
