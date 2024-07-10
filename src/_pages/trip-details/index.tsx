@@ -8,8 +8,15 @@ import {
     Settings2,
     UserCog,
 } from 'lucide-react';
+import { useState } from 'react';
+import CreateActivityModal from './_components/create-activity-modal';
 
 const TripDetailsPage = () => {
+    const [isCreateActivityModalOpen, setIsCreateActivityModalOpen] = useState(false);
+
+    const handleToggleCreateActivityModal = () => {
+        setIsCreateActivityModalOpen((state) => !state);
+    };
     return (
         <div className="mx-auto max-w-6xl space-y-8 px-6 py-10">
             <div className="flex h-16 items-center justify-between rounded-xl bg-zinc-900 px-4 shadow-shape">
@@ -36,7 +43,10 @@ const TripDetailsPage = () => {
                     <div className="flex items-center justify-between">
                         <h2 className="text-3xl font-semibold">Atividades</h2>
 
-                        <button className="flex items-center gap-2 rounded-lg bg-lime-300 px-5 py-2 font-medium text-lime-950 hover:bg-lime-400">
+                        <button
+                            className="flex items-center gap-2 rounded-lg bg-lime-300 px-5 py-2 font-medium text-lime-950 hover:bg-lime-400"
+                            onClick={handleToggleCreateActivityModal}
+                        >
                             <Plus className="size-5" />
                             Cadastrar atividade
                         </button>
@@ -150,6 +160,12 @@ const TripDetailsPage = () => {
                     </div>
                 </div>
             </main>
+
+            {isCreateActivityModalOpen && (
+                <CreateActivityModal
+                    handleToggleCreateActivityModal={handleToggleCreateActivityModal}
+                />
+            )}
         </div>
     );
 };
