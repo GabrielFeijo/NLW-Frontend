@@ -10,6 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.50.1",
+    "@tanstack/react-router": "^1.44.1",
+    "@tanstack/router-vite-plugin": "^1.44.1",
+    "axios": "^1.7.2",
     "date-fns": "^3.6.0",
     "localforage": "^1.10.0",
     "lucide-react": "^0.405.0",

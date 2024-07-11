@@ -1,31 +1,37 @@
 import { MapPin, Calendar, Settings2, ArrowRight, X } from 'lucide-react';
 import Button from '../../../../_components/button';
 import Input from '../../../../_components/input';
-import { DateRange, DayPicker } from 'react-day-picker';
+import { DayPicker } from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
 import { useState } from 'react';
 import { format } from 'date-fns';
+import { EventData } from '../..';
 
 interface DestinationAndDateStepProps {
     isGuestsInputOpen: boolean;
     handleToggleGuestsInput: () => void;
+    eventData: EventData;
+    setEventData: React.Dispatch<React.SetStateAction<EventData>>;
 }
 
 const DestinationAndDateStep = ({
     isGuestsInputOpen,
     handleToggleGuestsInput,
+    eventData,
+    setEventData,
 }: DestinationAndDateStepProps) => {
     const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
-    const [eventStartAndEndDates, setEventStartAndEndDates] = useState<DateRange | undefined>();
 
     function handleToggleDatePicker() {
         setIsDatePickerOpen((state) => !state);
     }
 
     const displayedDate =
-        eventStartAndEndDates && eventStartAndEndDates.from && eventStartAndEndDates.to
-            ? format(eventStartAndEndDates.from, "d' de 'LLL").concat(
-                  ' até '.concat(format(eventStartAndEndDates.to, "d' de 'LLL")),
+        eventData.eventStartAndEndDates &&
+        eventData.eventStartAndEndDates.from &&
+        eventData.eventStartAndEndDates.to
+            ? format(eventData.eventStartAndEndDates.from, "d' de 'LLL").concat(
+                  ' até '.concat(format(eventData.eventStartAndEndDates.to, "d' de 'LLL")),
               )
             : null;
 
@@ -33,7 +39,12 @@ const DestinationAndDateStep = ({
         <div className="flex h-16 items-center gap-3 rounded-xl bg-zinc-900 px-4 shadow-shape">
             <div className="flex flex-1 items-center gap-2">
                 <MapPin className="size-5 text-zinc-400" />
-                <Input disabled={isGuestsInputOpen} type="text" placeholder="Para onde você vai?" />
+                <Input
+                    disabled={isGuestsInputOpen}
+                    type="text"
+                    placeholder="Para onde você vai?"
+                    onChange={(e) => setEventData({ ...eventData, destination: e.target.value })}
+                />
             </div>
             <button
                 className="flex items-center gap-2 text-left text-zinc-400 outline-none"
@@ -72,8 +83,10 @@ const DestinationAndDateStep = ({
 
                         <DayPicker
                             mode="range"
-                            selected={eventStartAndEndDates}
-                            onSelect={setEventStartAndEndDates}
+                            selected={eventData.eventStartAndEndDates}
+                            onSelect={(e) =>
+                                setEventData({ ...eventData, eventStartAndEndDates: e })
+                            }
                         />
                     </div>
                 </div>

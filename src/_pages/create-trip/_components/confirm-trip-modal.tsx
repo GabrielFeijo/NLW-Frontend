@@ -33,11 +33,11 @@ const ConfirmTripModal = ({ handleToggleConfirmTripModal, createTrip }: ConfirmT
                 <form onSubmit={createTrip} className="space-y-3">
                     <div className="flex h-14 flex-1 items-center gap-2 rounded-lg border border-zinc-800 bg-zinc-950 px-4">
                         <User className="size-5 text-zinc-400" />
-                        <Input type="text" name="name" placeholder="Seu nome completo" />
+                        <Input type="text" name="owner_name" placeholder="Seu nome completo" />
                     </div>
                     <div className="flex h-14 flex-1 items-center gap-2 rounded-lg border border-zinc-800 bg-zinc-950 px-4">
                         <User className="size-5 text-zinc-400" />
-                        <Input type="email" name="email" placeholder="Seu email pessoal" />
+                        <Input type="email" name="owner_email" placeholder="Seu email pessoal" />
                     </div>
 
                     <Button size="full" type="submit">
